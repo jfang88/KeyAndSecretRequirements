@@ -1,0 +1,230 @@
+NIST SP 800-57 PART 1 REV. 5 RECOMMENDATION FOR KEY MANAGEMENT:
+PART 1 – GENERAL
+iv
+This
+publication
+is
+available
+free
+of
+charge
+from:
+https://doi.org/10.6028/NIST.SP.800-57pt1r5
+Executive Summary
+Cryptography is used to secure communications over networks, to protect information stored in
+databases, and for many other critical applications. Cryptographic keys play an important part in
+the operation of cryptography. These keys are analogous to the combination of a safe. If a safe
+combination is known to an adversary, the strongest safe provides no security against penetration.
+The proper management of cryptographic keys is essential to the effective use of cryptography for
+security. Poor key management may easily compromise strong algorithms. This Recommendation
+provides guidance on the management of a cryptographic key throughout its lifecycle, including
+its secure generation, storage, distribution, use, and destruction.
+Ultimately, the security of information protected by cryptography directly depends on the strength
+of the keys, the effectiveness of cryptographic mechanisms and protocols associated with the keys,
+and the protection provided to the keys. Secret and private keys need to be protected against
+unauthorized disclosure, and all keys need to be protected against modification.
+Cryptographic keys are used across a broad range of systems and applications in enterprises, many
+of which are managed by individuals who may not have expertise in key management.
+Consequently, organizations must ensure that clear guidance and oversight is provided for the
+proper management of keys, as well as controls to ensure that the guidance is being properly
+followed and implemented.
+Organizations and developers are presented with many choices in their use of cryptographic
+mechanisms. Inappropriate choices may result in an illusion of security but little or no real security
+for the protocol or application. This Recommendation (i.e., Special Publication (SP) 800-57)
+provides background information and establishes frameworks to support appropriate decisions
+when selecting and using cryptographic mechanisms.
+Cryptographic modules are used to perform cryptographic operations using these keys. This
+Recommendation does not address the implementation details for cryptographic modules that may
+be used to achieve the security requirements identified herein. These details are addressed in
+Federal Information Processing Standard (FIPS) 140 [FIPS 140] and its associated implementation
+guidance and derived test requirements (available at https://csrc.nist.gov/projects/cmvp/).
+This Recommendation is written for several different audiences and is divided into three parts:
+• Part 1, General, contains basic key-management guidance. It is intended to advise
+developers and system administrators on the “best practices” associated with key
+management. Cryptographic module developers may benefit from this general guidance by
+obtaining a greater understanding of the key-management features that are required to
+support specific applications. Protocol developers may identify key-management
+characteristics associated with specific suites of algorithms and gain a greater
+understanding of the security services provided by those algorithms. System administrators
+may use this document to assist in determining which configuration settings are most
+appropriate for their information. Part 1 of the Recommendation:
+1. Defines the security services that may be provided and the key types that may be
+employed in using cryptographic mechanisms;
+2. Provides background information regarding the cryptographic algorithms that use
+cryptographic keying material;
+
+
+--- PAGE 6 ---
+
+NIST SP 800-57 PART 1 REV. 5 RECOMMENDATION FOR KEY MANAGEMENT:
+PART 1 – GENERAL
+v
+This
+publication
+is
+available
+free
+of
+charge
+from:
+https://doi.org/10.6028/NIST.SP.800-57pt1r5
+3. Classifies the different types of keys and other cryptographic information according to
+their functions, specifies the protection that each type of information requires, and
+identifies methods for providing this protection;
+4. Identifies the states in which a cryptographic key may exist during its lifetime;
+5. Identifies the multitude of functions involved in key management; and
+6. Discusses a variety of key-management issues related to the keying material; topics
+discussed include key usage, cryptoperiod length, domain-parameter validation,
+public-key validation, key-inventory management, accountability, audit, survivability,
+and guidance for cryptographic algorithm and key size selection.
+• Part 2, Best Practices for Key Management Organizations, is primarily intended to address
+the needs of system owners and managers. It provides a framework and general guidance
+to support establishing cryptographic key management within an organization and a basis
+for satisfying the key-management aspects of statutory and policy security planning
+requirements for federal government organizations.
+• Part 3, Application-Specific Key Management Guidance, is intended to address the key-
+management issues associated with currently available implementations that use
+cryptography.
+
+
+--- PAGE 7 ---
+
+NIST SP 800-57 PART 1 REV. 5 RECOMMENDATION FOR KEY MANAGEMENT:
+PART 1 – GENERAL
+vi
+This
+publication
+is
+available
+free
+of
+charge
+from:
+https://doi.org/10.6028/NIST.SP.800-57pt1r5
+Table of Contents
+Executive Summary ..................................................................................................... iv
+1 Introduction ............................................................................................................... 1
+1.1 Purpose ..............................................................................................................................1
+1.2 Audience ............................................................................................................................1
+1.3 Scope .................................................................................................................................2
+1.4 Purpose of FIPS and NIST Recommendations (NIST Standards) ....................................3
+1.5 Content and Organization ..................................................................................................4
+2 Glossary of Terms and Acronyms ........................................................................... 6
+2.1 Glossary .............................................................................................................................6
+2.2 Acronyms ........................................................................................................................20
+3 Security Services .................................................................................................... 22
+3.1 Confidentiality .................................................................................................................22
+3.2 Data Integrity ...................................................................................................................22
+3.3 Authentication .................................................................................................................22
+3.4 Authorization ...................................................................................................................23
+3.5 Non-repudiation ...............................................................................................................23
+3.6 Support Services ..............................................................................................................23
+3.7 Combining Services .........................................................................................................23
+4 Cryptographic Algorithms ...................................................................................... 27
+4.1 Cryptographic Hash Functions ........................................................................................27
+4.2 Symmetric-Key Algorithms ............................................................................................28
+4.3 Asymmetric-Key Algorithms ..........................................................................................29
+4.4 Random Bit Generation ...................................................................................................29
+5 General Key-Management Guidance ..................................................................... 30
+5. 1 Key Types and Other Information ...................................................................................30
+5.1.1 Cryptographic Keys ............................................................................................30
+5.1.2 Other Related Information ..................................................................................32
+5.2 Key Usage .......................................................................................................................33
+5.3 Cryptoperiods ..................................................................................................................34
+5.3.1 Factors Affecting Cryptoperiods .........................................................................34
+5.3.2 Consequence Factors Affecting Cryptoperiods ..................................................35
+5.3.3 Other Factors Affecting Cryptoperiods ..............................................................36
+5.3.3.1 Communications versus Storage ........................................................36
+5.3.3.2 Cost of Key Revocation and Replacement .........................................36
+5.3.4 Asymmetric Key Usage Periods and Cryptoperiods ..........................................36
+5.3.5 Symmetric Key Usage Periods and Cryptoperiods .............................................37
+5.3.6 Cryptoperiod Recommendations for Specific Key Types ..................................38
+5.3.7 Recommendations for Other Related Information ..............................................47
+
+
+--- PAGE 8 ---
+
+NIST SP 800-57 PART 1 REV. 5 RECOMMENDATION FOR KEY MANAGEMENT:
+PART 1 – GENERAL
+vii
+This
+publication
+is
+available
+free
+of
+charge
+from:
+https://doi.org/10.6028/NIST.SP.800-57pt1r5
+5.4 Assurances .......................................................................................................................47
+5.4.1 Assurance of Integrity (Integrity Protection) ......................................................47
+5.4.2 Assurance of Domain Parameter Validity ..........................................................47
+5.4.3 Assurance of Public-Key Validity ......................................................................48
+5.4.4 Assurance of Private-Key Possession .................................................................48
+5.4.5 Key Confirmation ...............................................................................................48
+5.5 Compromise of Keys and other Keying Material ............................................................49
+5.5.1 Implications.........................................................................................................49
+5.5.2 Protective Measures ............................................................................................50
+5.6 Guidance for Cryptographic Algorithm and Key-Size Selection ....................................52
+5.6.1 Comparable Algorithm Strengths .......................................................................52
+5.6.1.1 Security Strengths of Symmetric Block Cipher and Asymmetric-Key
+Algorithms ..........................................................................................53
+5.6.1.2 Security Strengths of Hash Functions and Hash-based Functions .....55
+5.6.2 Using Algorithm Suites and the Effective Security Strength .............................57
+5.6.3 Projected Security Strength Time Frames and Current Approval Status ...........59
+5.6.4 Transitioning to New Algorithms and Key Sizes in Systems .............................60
+5.6.5 Decrease of Security Strength Over Time ..........................................................62
+6 Protection Requirements for Key Information ...................................................... 65
+6.1 Protection and Assurance Requirements .........................................................................65
+6.1.1 Summary of Protection and Assurance Requirements for Cryptographic Keys .66
+6.1.2 Summary of Protection Requirements for Other Related Information ...............70
+6.2 Protection Mechanisms ...................................................................................................72
+6.2.1 Protection Mechanisms for Key Information in Transit .....................................72
+6.2.1.1 Availability .........................................................................................73
+6.2.1.2 Integrity ..............................................................................................73
+6.2.1.3 Confidentiality ....................................................................................74
+6.2.1.4 Association with Usage or Application ..............................................75
+6.2.1.5 Association with Other Entities ..........................................................75
+6.2.1.6 Association with Other Related Key Information ..............................75
+6.2.2 Protection Mechanisms for Key Information in Storage ....................................75
+6.2.2.1 Availability .........................................................................................75
+6.2.2.2 Integrity ..............................................................................................76
+6.2.2.3 Confidentiality ...................................................................................77
+6.2.2.4 Association with Usage or Application ..............................................77
+6.2.2.5 Association with the Other Entities ....................................................77
+6.2.2.6 Association with Other Related Key Information ..............................77
+6.2.3 Metadata for Keys ...............................................................................................78
+7 Key States and Transitions .................................................................................... 80
+
+
+--- PAGE 9 ---
+
+NIST SP 800-57 PART 1 REV. 5 RECOMMENDATION FOR KEY MANAGEMENT:
+PART 1 – GENERAL
+viii
+This
+publication
+is
+available
+free
+of
+charge
+from:
+https://doi.org/10.6028/NIST.SP.800-57pt1r5
+7.1 Pre-activation State ..........................................................................................................81
+7.2 Active State .....................................................................................................................82
+7.3 Suspended State ...............................................................................................................84
+7.4 Deactivated State .............................................................................................................86
+7.5 Compromised State .........................................................................................................87
+7.6 Destroyed State ................................................................................................................88
+8 Key-Management Phases and Functions .............................................................. 89
+8.1 Pre-operational Phase ......................................................................................................90
+8.1.1 Entity Registration Function ...............................................................................90
+8.1.2 System Initialization Function ............................................................................92
+8.1.3 Initialization Function .........................................................................................92
+8.1.4 Keying-Material Installation Function ................................................................92
+8.1.5 Key Establishment Function ...............................................................................92
+8.1.5.1 Generation and Distribution of Asymmetric Key Pairs .....................93
+8.1.5.1.1 Distribution of Public Keys ................................................................. 93
+8.1.5.1.2 Distribution of Ephemeral Public Keys ...............................
+(Content truncated due to size limit. Use page ranges or line ranges to read remaining content)
