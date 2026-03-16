@@ -1809,18 +1809,25 @@ This policy establishes governance, lifecycle controls, and operational requirem
 1.2 Maintain inventories, architecture documentation, and dependency mapping (HK OCCICS CoP, NIST CM-8). [R22](https://www.occics.gov.hk/filemanager/en/content_19/CoP_en_v1.0.pdf)[R2](https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final)
 
 **2. Access Control**
+
 2.1 Enforce least privilege, annual access reviews, unique IDs, privileged-account separation, and MFA where appropriate (NIST AC-2/AC-6, HK OCCICS CoP). [R2](https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final)[R22](https://www.occics.gov.hk/filemanager/en/content_19/CoP_en_v1.0.pdf)
+
 2.2 Log access to secrets/keys, privileged use, and access changes for at least six months (NIST AU-2, HK OCCICS CoP). [R2](https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final)[R22](https://www.occics.gov.hk/filemanager/en/content_19/CoP_en_v1.0.pdf)
 
 **3. Lifecycle Management**
+
 3.1 Manage cryptographic keys across generation, storage, archive, retrieval, distribution, retirement, and destruction (NIST SP 800-57, HK OCCICS CoP). [R1](https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final)[R22](https://www.occics.gov.hk/filemanager/en/content_19/CoP_en_v1.0.pdf)
+
 3.2 Store keys separately from encrypted data and implement sound key management practices (HKMA, HK OCCICS CoP). [R22](https://www.occics.gov.hk/filemanager/en/content_19/CoP_en_v1.0.pdf)
 
 **4. Operational Controls**
+
 4.1 Centralize secrets in managed platforms with metadata, rotation, and audit (OWASP). [R6](https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html)
+
 4.2 Automate rotation where possible; document manual/coordinated processes with runbooks (OWASP, NIST SP 800-57). [R6](https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html)[R1](https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final)
 
 **5. Incident Response**
+
 5.1 Maintain emergency plans, risk assessments, audits, and notification processes (NIST IR-4, HK OCCICS CoP). [R2](https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final)[R22](https://www.occics.gov.hk/filemanager/en/content_19/CoP_en_v1.0.pdf)
 
 ### B.4 Compliance Mapping Summary
