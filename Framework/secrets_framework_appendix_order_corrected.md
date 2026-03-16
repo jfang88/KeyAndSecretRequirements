@@ -1758,6 +1758,29 @@ flowchart TB
 | Version awareness | Record the injected secret version so a later rotation can reconcile which hosts received which version |
 | Audit | Log the Ansible job ID, target host, secret identifier, and success or failure status without logging secret content |
 
+
+
+## A.8 Appendix references
+
+| Ref ID | Reference | Clickable link | Primary appendix use |
+|---|---|---|---|
+| R10 | Huawei CSMS overview / DEW | [Huawei CSMS Overview](https://support.huaweicloud.com/eu/usermanual-dew/dew_01_2000.html) | Huawei platform baseline |
+| R11 | Huawei CSMS create secret | [Huawei Create Secret](https://support.huaweicloud.com/intl/en-us/usermanual-dew/dew_01_9993.html) | Secret creation and secret attributes |
+| R12 | Huawei CSMS secret versions | [Huawei Managing Secret Versions](https://support.huaweicloud.com/intl/en-us/usermanual-dew/dew_01_8882.html) | Version-aware retrieval and rotation |
+| R13 | Huawei CCE Secrets Manager for DEW | [Huawei CCE Secrets Manager for DEW](https://support.huaweicloud.com/intl/en-us/usermanual-cce/cce_10_0370.html) | Kubernetes integration and VPC-aligned runtime delivery |
+| R14 | CyberArk Secrets Provider for Kubernetes | [CyberArk Secrets Provider for Kubernetes](https://docs.cyberark.com/conjur-open-source/latest/en/content/integrations/k8s-ocp/cjr-secrets-provider-lp.htm) | Kubernetes integration outside Huawei |
+| R15 | CyberArk Conjur | [CyberArk Conjur](https://www.conjur.org) | CyberArk policy-based secret management reference |
+| R16 | Ansible CyberArk lookup plugin | [Ansible CyberArk password lookup](https://docs.ansible.com/projects/ansible/latest/collections/community/general/cyberarkpassword_lookup.html) | Ansible lookup from CyberArk |
+| R17 | CyberArk Ansible integration | [CyberArk Ansible integration](https://docs.cyberark.com/secrets-manager-sh/13.7/en/content/integrations/ansible.html) | Ansible-based CyberArk retrieval patterns |
+| R18 | HuaweiCloud Ansible collection | [HuaweiCloud Ansible collection](https://github.com/huaweicloud/huaweicloud-ansible-modules) | Hybrid orchestration with Huawei APIs |
+| R19 | Kubernetes Secrets good practices | [Kubernetes Secrets good practices](https://kubernetes.io/docs/concepts/security/secrets-good-practices/) | etcd encryption, RBAC, namespace isolation |
+| R20 | CyberArk VM integration example | [Conjur secrets in VM applications](https://developer.cyberark.com/blog/technical-deep-dive-using-conjur-secrets-in-vm-deployed-ansible-tower-applications/) | VM retrieval model reference |
+| R21 | Hong Kong OCCICS Code of Practice | [OCCICS CoP PDF](https://www.occics.gov.hk/filemanager/en/content_19/CoP_en_v1.0.pdf) | Hong Kong regulatory overlay for local deployment |
+| R23 | OWASP API9:2023 Improper Inventory Management | [OWASP API9:2023 Improper Inventory Management](https://owasp.org/API-Security/editions/2023/en/0xa9-improper-inventory-management/) | Inventory and dependency mapping guidance for design and operations |
+| R25 | Huawei VPC best practices | [Huawei VPC Best Practices PDF](https://support.huaweicloud.com/intl/en-us/bestpractice-vpc/vpc-bestpractice-pdf.pdf) | VPC segmentation and routing context for VM examples |
+
+
+
 # Appendix B. Policy Summary
 
 ### B.1 Purpose and Scope
@@ -1824,22 +1847,3 @@ No Hong Kong or China regulation provides a precise definition equivalent to NIS
 
 This summary aligns with NIST's formal key definition, OWASP's operational secret handling, and HK regulatory expectations for governance and evidence. [R1](https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final)[R6](https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html)[R22](https://www.occics.gov.hk/filemanager/en/content_19/CoP_en_v1.0.pdf)
 
-
-## A.8 Appendix references
-
-| Ref ID | Reference | Clickable link | Primary appendix use |
-|---|---|---|---|
-| R10 | Huawei CSMS overview / DEW | [Huawei CSMS Overview](https://support.huaweicloud.com/eu/usermanual-dew/dew_01_2000.html) | Huawei platform baseline |
-| R11 | Huawei CSMS create secret | [Huawei Create Secret](https://support.huaweicloud.com/intl/en-us/usermanual-dew/dew_01_9993.html) | Secret creation and secret attributes |
-| R12 | Huawei CSMS secret versions | [Huawei Managing Secret Versions](https://support.huaweicloud.com/intl/en-us/usermanual-dew/dew_01_8882.html) | Version-aware retrieval and rotation |
-| R13 | Huawei CCE Secrets Manager for DEW | [Huawei CCE Secrets Manager for DEW](https://support.huaweicloud.com/intl/en-us/usermanual-cce/cce_10_0370.html) | Kubernetes integration and VPC-aligned runtime delivery |
-| R14 | CyberArk Secrets Provider for Kubernetes | [CyberArk Secrets Provider for Kubernetes](https://docs.cyberark.com/conjur-open-source/latest/en/content/integrations/k8s-ocp/cjr-secrets-provider-lp.htm) | Kubernetes integration outside Huawei |
-| R15 | CyberArk Conjur | [CyberArk Conjur](https://www.conjur.org) | CyberArk policy-based secret management reference |
-| R16 | Ansible CyberArk lookup plugin | [Ansible CyberArk password lookup](https://docs.ansible.com/projects/ansible/latest/collections/community/general/cyberarkpassword_lookup.html) | Ansible lookup from CyberArk |
-| R17 | CyberArk Ansible integration | [CyberArk Ansible integration](https://docs.cyberark.com/secrets-manager-sh/13.7/en/content/integrations/ansible.html) | Ansible-based CyberArk retrieval patterns |
-| R18 | HuaweiCloud Ansible collection | [HuaweiCloud Ansible collection](https://github.com/huaweicloud/huaweicloud-ansible-modules) | Hybrid orchestration with Huawei APIs |
-| R19 | Kubernetes Secrets good practices | [Kubernetes Secrets good practices](https://kubernetes.io/docs/concepts/security/secrets-good-practices/) | etcd encryption, RBAC, namespace isolation |
-| R20 | CyberArk VM integration example | [Conjur secrets in VM applications](https://developer.cyberark.com/blog/technical-deep-dive-using-conjur-secrets-in-vm-deployed-ansible-tower-applications/) | VM retrieval model reference |
-| R21 | Hong Kong OCCICS Code of Practice | [OCCICS CoP PDF](https://www.occics.gov.hk/filemanager/en/content_19/CoP_en_v1.0.pdf) | Hong Kong regulatory overlay for local deployment |
-| R23 | OWASP API9:2023 Improper Inventory Management | [OWASP API9:2023 Improper Inventory Management](https://owasp.org/API-Security/editions/2023/en/0xa9-improper-inventory-management/) | Inventory and dependency mapping guidance for design and operations |
-| R25 | Huawei VPC best practices | [Huawei VPC Best Practices PDF](https://support.huaweicloud.com/intl/en-us/bestpractice-vpc/vpc-bestpractice-pdf.pdf) | VPC segmentation and routing context for VM examples |
