@@ -125,27 +125,27 @@ For organizations governed in Hong Kong, the **Code of Practice pursuant to the 
 
 ## 3. Definitions and Secret Type Taxonomy
 
-A **secret** is a sensitive value that must be protected against unauthorized disclosure because possession or knowledge of that value can grant access, authenticate an identity, authorize an action, or enable other security-relevant operations. In practice, OWASP treats passwords, API keys, tokens, certificates, and cryptographic keys as secrets that require managed storage, access control, rotation, metadata, and audit. [web:46]
+A **secret** is a sensitive value that must be protected against unauthorized disclosure because possession or knowledge of that value can grant access, authenticate an identity, authorize an action, or enable other security-relevant operations.
 
-A **cryptographic key** is formally defined by NIST as a parameter used with a cryptographic algorithm that determines the algorithm's operation so that an entity with knowledge of the key can reproduce, reverse, or verify the operation, while one without the key cannot. NIST also describes cryptographic keys as values used to control cryptographic operations such as encryption, decryption, signature generation, or signature verification. [web:179][web:181]
+A **cryptographic key** is a parameter used with a cryptographic algorithm that determines the algorithm's operation so that an entity with knowledge of the key can reproduce, reverse, or verify the operation, while one without the key cannot.
 
-In this framework, a **key** is therefore a specialized type of secret used for cryptographic operations, while a **secret** is the broader category that also includes passwords, bearer tokens, client secrets, and similar sensitive credentials. [web:46][web:179]
+In this framework, a **key** is therefore a specialized type of secret used for cryptographic operations, while a **secret** is the broader category that also includes passwords, bearer tokens, client secrets, and similar sensitive credentials.
 
-A **credential** is the secret or key material presented to authenticate a user, machine, workload, or service, and NIST SP 800-63 is used in this framework to distinguish identities, authenticators, federation, and authenticator lifecycle management from broader application-secret and data-encryption-key management. [web:160][web:170]
+A **credential** is the secret or key material presented to authenticate a user, machine, workload, or service.
+
+A **machine identity** is the system or workload identity itself, together with the credential or key material bound to it.
 
 ### 3.0 Why secrets and key management matter
 
-NIST SP 800-12 states that the proper management of cryptographic keys is essential to the effective use of cryptography for security, and that the security of information protected by cryptography directly depends on the protection afforded to keys. It also states that key management includes the procedures and protocols, both manual and automated, used throughout the life cycle of keys, including generation, distribution, storage, entry, use, destruction, and archiving. [web:175]
+The proper management of secrets and cryptographic keys is essential to the effective use of security controls, because the protection achieved by authentication, encryption, signing, and access control depends on the protection afforded to the underlying secret or key material.
 
-NIST SP 800-53 SC-12 requires organizations to establish and manage cryptographic keys for required cryptography employed within information systems, which makes key management a control requirement and not just an implementation preference. [web:41]
+If a secret is disclosed, the affected control is often **bypassed rather than attacked**, because an unauthorized party can authenticate or authorize directly with the exposed value instead of exploiting a software flaw or breaking a cryptographic algorithm.
 
-OWASP's secrets-management guidance treats secrets as high-value operational assets because they grant access to systems and services, and it recommends centralized control, metadata, auditing, rotation, and automation to reduce exposure and operational error. [web:46]
+For that reason, secrets, machine-identity credentials, trust anchors, signing keys, and similar material should be treated as high-value assets in threat models and as Tier-0 or equivalent material in zero-trust-oriented designs.
 
-If a secret is disclosed, the affected control is often **bypassed rather than attacked**, because an attacker can authenticate or authorize directly with the exposed value instead of exploiting a software flaw or cryptographic weakness. That is why secrets, machine-identity credentials, trust anchors, and high-assurance keys should be treated as high-value assets in threat models and as Tier-0 or equivalent material in zero-trust designs. [web:46][web:175][web:160]
+Secrets and keys are also a recurring cause of compromise when mishandled through hard-coding, repository exposure, insecure local storage, overbroad distribution, or plaintext logging.
 
-Secret leakage is also a common breach path when secrets are hard-coded into scripts or code, committed to repositories, stored in insecure locations, or logged in plaintext. External guidance on secret leakage highlights hardcoding, public-repository exposure, insecure environment storage, and plaintext logging as recurring causes of compromise, which aligns with OWASP's emphasis on centralized secret handling and lifecycle control. [web:178][web:182][web:46]
-
-For organizations governed in Hong Kong, the OCCICS Code of Practice reinforces this importance by requiring documented computer-system security management plans, access control, cryptographic protection, logging, risk assessments, audits, and incident handling for covered systems. Even though the Code is not a deep technical control catalog, it makes clear that these controls must be documented, governed, and evidenced. [page:5][page:6]
+For organizations governed in Hong Kong, the OCCICS Code of Practice reinforces the need for documented security management plans, access control, cryptographic protection, logging, audit, and evidence-backed governance for covered systems.
 
 ### 3.1 Secret classes
 
@@ -154,42 +154,39 @@ For organizations governed in Hong Kong, the OCCICS Code of Practice reinforces 
 | API secrets | API keys, webhook secrets, HMAC shared secrets | Service-to-service or external API authentication | Usually bearer or shared secret; tightly scoped and rotated frequently |
 | Credential secrets | Service passwords, database credentials, client secrets | Authentication to systems or platforms | Prefer dynamic issuance over long-lived storage |
 | Symmetric keys | AES DEKs, KEKs, HMAC keys | Encryption and integrity | Strong lifecycle and key hierarchy required |
-| Asymmetric keys | TLS private keys, code signing keys, mTLS client keys | Authentication, signing, and encryption | Private keys require strongest protection |
-| Trust anchors | CA roots, intermediate CA keys, SSH CA keys | Establish trust relationships | Limited issuance paths and strict custody |
-| Machine identity material | Service accounts, workload tokens, SSH key pairs | Identity of systems and automation | Prefer short-lived, attested, or signed identities |
-| Recovery materials | Escrow shards, emergency credentials | Recovery and continuity | Multi-party control and separate storage |
+| Asymmetric private keys | TLS private keys, code-signing keys, mTLS client keys, SSH private keys | Authentication, signing, and encryption | Private keys require strongest protection |
+| Trust anchors and issuing keys | CA roots, intermediate CA keys, SSH CA keys | Establish trust relationships | Limited issuance paths and strict custody required |
+| Recovery material | Escrow shards, unseal shares, break-glass credentials | Recovery and continuity | Must be isolated from routine operational use |
 
-### 3.2 Secret sensitivity tiers
+### 3.2 Key and credential distinctions
 
-| Tier | Description | Examples | Baseline controls |
-|---|---|---|---|
-| Tier 1 - Critical | Compromise would materially impact core financial services, customer funds, or enterprise trust | CA private keys, KEKs, HSM master material, signing keys | HSM residency, no plaintext export, dual control, threshold recovery |
-| Tier 2 - High | Compromise would provide privileged system or data access | Service account secrets, SSH private keys, OAuth client secrets, API keys | Central secret store, short TTL where possible, strong monitoring |
-| Tier 3 - Medium | Sensitive but narrower blast radius | Lower-risk environment credentials, internal non-privileged tokens | Central storage, rotation, audit, no source code exposure |
-| Tier 4 - Low | Sensitive configuration with limited security impact | Non-privileged configuration secrets | Managed storage and baseline audit |
+| Item type | What it is | Typical examples | Primary function | Handling expectation |
+|---|---|---|---|---|
+| Secret | Broad class of sensitive values whose disclosure can enable access or privileged action | Passwords, bearer tokens, API secrets, client secrets | Access, authorization, or privileged function | Centralized storage, access control, rotation, audit |
+| Cryptographic key | Specialized secret used by a cryptographic algorithm | DEK, KEK, private signing key, HMAC key | Encryption, decryption, signing, verification, integrity | Key hierarchy, cryptoperiod, wrapping, archival, destruction |
+| Credential | Secret or key material presented for authentication | Password, token, private key, client secret | Proves identity to a verifier | Authenticator lifecycle and revocation required |
+| Identity | The principal itself, not the secret | User account, service account, workload identity, host identity | Ownership of permissions and accountability | Governed as an identity object with owner, scope, and entitlement review |
+| Authenticator | The means used to prove the identity | Password, token, certificate/private key pair, signed assertion | Authentication event | Managed separately from the identity object |
 
-### 3.3 Secret type matrix
+### 3.3 Secret type taxonomy for enterprise design
 
-| Secret type | Example | Source | Destination | Trust model | Default rotation |
-|---|---|---|---|---|---|
-| API key | Vendor payment API key | Payments platform | External provider | Bearer or HMAC with scope restriction | 90 days |
-| OAuth client secret | OIDC confidential client secret | Application | Identity provider | OIDC / OAuth2 | 90 days |
-| DB credential | Dynamic DB login | Vault | Database | Password or mTLS | 30 days or shorter TTL |
-| Symmetric DEK | AES-256 data key | Crypto service | Data stores | Wrapped by KEK | 365 days or event driven |
-| KEK | AES wrapping key | HSM | Secret store / crypto service | HSM-enforced | 730 days |
-| TLS private key | RSA / EC server key | HSM or PKI engine | TLS endpoint | PKI chain | Certificate-driven |
-| SSH identity | SSH cert or key pair | Vault SSH CA | Hosts / systems | SSH CA trust | 1 hour to 24 hours if cert-based |
-| Service account token | Workload identity token | Cloud IAM / Vault | Internal service | OIDC / WIF / AppRole | Minutes to 1 hour |
-| Escrow shard | Shamir shard | Key ceremony | Custodian | M-of-N threshold | Reviewed annually |
+| Category | Enterprise examples | Source of truth | Typical rotation model | Design-document requirement |
+|---|---|---|---|---|
+| Human authentication secrets | Admin passwords, privileged credentials | IAM, PAM, identity platform | Policy-driven or event-driven | Record owner, system, review model, and emergency process |
+| Service authentication secrets | DB passwords, API client secrets, broker credentials | Vault, secret manager, platform API | Automatic or scheduled | Record dependency set, consumers, rotation owner, rollback path |
+| Machine identity credentials | mTLS certs, workload tokens, SSH host credentials | PKI, identity provider, attestation system | Short-lived renewal or certificate lifecycle | Record issuer, trust boundary, renewal method, and revocation path |
+| Data protection keys | DEKs, KEKs, HSM-managed encryption keys | KMS, HSM, crypto service | Cryptoperiod-based | Record algorithm, hierarchy, custody, archival, destruction |
+| Trust anchors | CA roots, intermediate CA keys, SSH CA keys | HSM-backed PKI or trust service | Ceremony-based or rare controlled rollover | Record ceremony, custodians, dependent systems, emergency rollover |
+| Recovery material | Escrow shares, break-glass secrets | Escrow service, offline storage, split custody | Test-based and exceptional use only | Record storage model, holders, access conditions, post-use rotation |
 
 ### 3.4 Identity, account, and cryptographic material distinctions
 
-The framework distinguishes between an **account or principal**, the **credential or key used to authenticate as that principal**, and the **cryptographic key used to protect data**. This distinction is important because the lifecycle, custody model, monitoring pattern, and compromise response are different for each class of material.
+The framework distinguishes between an **account or principal**, the **credential or key used to authenticate as that principal**, and the **cryptographic key used to protect data**.
 
 | Class | What it represents | Typical examples | Primary purpose | Lifecycle emphasis | Handling standard |
 |---|---|---|---|---|---|
 | Service account | A non-human principal with permissions in a platform or application | Cloud IAM service account, DB service account, Kubernetes service account, application technical user | Authorization boundary and ownership of privileges | Provisioning, approval, periodic entitlement review, deprovisioning | Govern as an identity object with owner, scope, review date, and role mapping |
-| Machine identity credential | The material a system uses to prove it is a known workload or host | mTLS client certificate and private key, SSH host certificate, workload identity token, AppRole secret ID, signed instance identity | Authentication of a workload, VM, node, or service | Issuance, trust validation, renewal, revocation, attestation, runtime protection | Prefer short-lived, attested, or certificate-based identity rather than long-lived static shared secrets |
+| Machine identity credential | The material a system uses to prove it is a known workload or host | mTLS client certificate and private key, SSH host certificate, workload identity token, signed instance identity | Authentication of a workload, VM, node, or service | Issuance, trust validation, renewal, revocation, attestation, runtime protection | Prefer short-lived, attested, or certificate-based identity rather than long-lived static shared secrets |
 | Service authentication secret | A secret that lets a workload authenticate to another system on behalf of its service account | Client secret, service password, API token, bootstrap secret, database password | Service-to-service authentication | Rotation, lease TTL, dependency mapping, emergency replacement | Central store, scoped delivery, short lifetime where possible |
 | Data protection key | A cryptographic key used to encrypt, decrypt, or integrity-protect information | DEK, KEK, HMAC key, tokenization key | Confidentiality and integrity protection | Cryptoperiod management, wrapping hierarchy, archival, destruction, re-encryption | HSM or KMS anchored, strict key hierarchy, store separately from protected data |
 | Trust anchor or issuing key | A key used to establish or delegate trust | CA root key, intermediate CA key, SSH CA key, code-signing root | Trust establishment and chain validation | Ceremony-based custody, issuance governance, emergency rollover | Tier 1 controls, dual control, threshold recovery, restricted use |
@@ -197,11 +194,9 @@ The framework distinguishes between an **account or principal**, the **credentia
 
 #### Practical distinction rules
 
-NIST SP 800-63 is especially useful for the identity side of this framework because it separates identity proofing, authentication, federation, and authenticator lifecycle management, which helps distinguish identities and authenticators from general-purpose application secrets or data-encryption keys.
-
 - A **service account** is the identity object that owns permissions.
 - A **machine identity credential** is the proof that the workload is that identity.
-- A **service authentication secret** is often what the workload presents to another system after it has assumed or been bound to the service account.
+- A **service authentication secret** is what the workload presents to another system after it has assumed or been bound to the service account.
 - A **data protection key** does not identify the workload; it protects data or verifies integrity.
 - A **trust anchor** should not be treated like a routine application secret because compromise affects all dependent identities or certificates.
 
@@ -209,11 +204,45 @@ NIST SP 800-63 is especially useful for the identity side of this framework beca
 
 | Example | Identity object | Authentication material | Protected function |
 |---|---|---|---|
-| Kubernetes workload calling an internal API | Kubernetes service account | OIDC service account token or mTLS client certificate | Authenticates workload to Vault, API gateway, or mesh |
+| Kubernetes workload calling an internal API | Kubernetes service account | OIDC service account token or mTLS client certificate | Authenticates workload to Vault, API gateway, or service mesh |
 | ECS virtual machine in Huawei VPC | VM or workload identity | IAM token, instance-bound credential, or retrieved bootstrap secret | Authenticates VM to CSMS, database, or internal services |
 | Application using a DB login | Service account in database | Dynamic DB password or client certificate | Authenticates application to database |
 | Storage encryption service | Crypto service identity | Service cert or workload token | Uses DEK and KEK to protect stored data |
 | Internal PKI issuing TLS certs | CA service identity | CA private key under HSM control | Establishes trust for issued certificates |
+
+### 3.5 Non-secrets and excluded sensitive values
+
+For clarity, not every sensitive or security-relevant value is a secret.
+
+A value is in scope as a **secret** under this framework when its disclosure can by itself, or in combination with realistically available context, grant access, authenticate an identity, authorize an action, bypass a control, or enable misuse of protected cryptographic operations.
+
+The following are **not secrets**, provided they do not enable access, privilege, impersonation, or cryptographic compromise on their own:
+
+| Item | Normally treated as secret? | Clarification |
+|---|---|---|
+| Public keys | No | Public keys are intended for distribution and validation use. They are not secrets, although their authenticity and binding to the correct identity must still be protected. |
+| Public certificates | No | Public certificates are normally distributable trust artifacts. They are not secrets unless bundled with private-key material or other authenticators. |
+| Usernames or identifiers alone | No | A username, service name, account ID, client ID, certificate subject, or workload identifier is not a secret unless it is combined with a password, token, private key, or other authenticator. |
+| Non-privileged configuration values | No | Configuration values that do not grant access or privilege, such as hostnames, ports, feature flags, region names, timeout values, or routing labels, are not secrets. |
+| Encrypted secret values at rest | Not by themselves, conditionally | Encrypted secret blobs are not treated as plaintext secrets only when the encryption keys are separately protected, access-controlled, and not co-located in a way that makes trivial recovery possible. |
+| Secret metadata | Usually no | Secret names, owners, rotation dates, and inventory metadata are normally not secrets, but may still require restricted handling where they expose sensitive architecture or attack paths. |
+
+#### Additional rules
+
+- Public material associated with asymmetric cryptography, such as public keys and public certificates, should still be integrity-protected even though it is not secret.
+- Identifiers are not secrets, but they may still be sensitive from a privacy, reconnaissance, or architecture-disclosure perspective.
+- Encrypted values should not be treated as safely non-secret if the decryption key is stored in the same repository, host, container, script, deployment artifact, or administrative workflow.
+- When in doubt, classify a value based on whether disclosure would materially enable unauthorized access, impersonation, privilege escalation, or control bypass.
+
+#### Enterprise interpretation
+
+This distinction prevents over-classifying routine identifiers and public trust material while ensuring the organization still protects the items that actually function as authenticators, access enablers, or cryptographic control material.
+
+It also supports clearer inventory records, because architecture documents can separately track:
+1. identities and identifiers,
+2. public trust material,
+3. operational configuration values,
+4. true secrets and private cryptographic material.
 
 ---
 
