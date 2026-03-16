@@ -1805,7 +1805,9 @@ This policy establishes governance, lifecycle controls, and operational requirem
 ### B.3 Key Requirements
 
 **1. Governance**
+
 1.1 Board or senior management must endorse the security management plan and review it at least every two years (HK OCCICS CoP). [R22](https://www.occics.gov.hk/filemanager/en/content_19/CoP_en_v1.0.pdf)
+
 1.2 Maintain inventories, architecture documentation, and dependency mapping (HK OCCICS CoP, NIST CM-8). [R22](https://www.occics.gov.hk/filemanager/en/content_19/CoP_en_v1.0.pdf)[R2](https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final)
 
 **2. Access Control**
