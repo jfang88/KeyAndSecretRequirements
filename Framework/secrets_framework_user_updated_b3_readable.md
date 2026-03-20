@@ -2,7 +2,7 @@
 
 **Organization Type:** Critical Financial Services Provider  
 **Document Type:** Architecture and Standards  
-**Version:** 1.0  
+**Version:** 1.2  
 **Classification:** Internal Restricted  
 **Review Cycle:** Annual or on material change
 
