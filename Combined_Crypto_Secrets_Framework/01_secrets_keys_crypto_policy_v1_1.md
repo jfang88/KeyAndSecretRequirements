@@ -16,7 +16,8 @@
 | Version | Date | Author | Status | Changes |
 |---------|------|--------|--------|---------|
 | 0.1 | 2026-03-23 | Security Architecture | Draft | Initial policy aligned to Cap. 653, HKMA, NIST CSF 2.0 Govern function |
-| 1.0 | 2026-04-01 | Security Architecture | Approved | Final version with board review comments incorporated |
+| 1.0 | 2026-03-23 | Security Architecture | Approved | Final version with board review comments incorporated |
+| 1.1 | 2026-03-24 | Security Architecture | Approved | Editorial alignment of numbering, table of contents, and terminology |
 
 ---
 
@@ -32,6 +33,7 @@
 8. [Assurance and Evidence](#8-assurance-and-evidence)
 9. [Compliance Mapping](#9-compliance-mapping)
 10. [References](#10-references)
+11. [Document Reference Register](#11-document-reference-register)
 
 ---
 
@@ -86,7 +88,9 @@ This policy derives authority from:
 
 ---
 
-## 5. Control Objectives (NIST CSF 2.0)
+## 5. Control Objectives
+
+This section aligns policy objectives to NIST CSF 2.0 functions.
 
 ### 5.1 Govern (GV)
 **Objective:** Establish organizational accountability, policy direction, and risk management for secrets/keys/crypto.
@@ -236,7 +240,7 @@ Mapped in Section 5.
 
 *This policy must be reviewed annually or upon material regulatory/technical change.*
 
-## References
+## 11. Document Reference Register
 
 ### Internal Documents
 

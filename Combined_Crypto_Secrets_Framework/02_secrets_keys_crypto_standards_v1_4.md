@@ -16,32 +16,35 @@
 
 ## Table of Contents
 
-- [CSA CCM Cross-Reference Overview](#csa-ccm-cross-reference-overview)
-- [Identity and Access Linkages](#identity-and-access-linkages)
+1. [Regulatory Positioning](#regulatory-positioning)
+2. [Purpose and Scope](#1-purpose-and-scope)
+3. [Governing Standards and Frameworks](#2-governing-standards-and-frameworks)
+4. [Definitions and Secret Type Taxonomy](#3-definitions-and-secret-type-taxonomy)
+5. [Lifecycle Model](#4-lifecycle-model)
+6. [Secret Type Requirements](#5-secret-type-requirements)
+7. [Service Account Framework](#6-service-account-framework)
+8. [SSH Key Pair Framework](#7-ssh-key-pair-framework)
+9. [Inventory and Metadata Schema](#8-inventory-and-metadata-schema)
+10. [Encryption Requirements](#9-encryption-requirements)
+11. [Trust Relationships and Authentication Models](#10-trust-relationships-and-authentication-models)
+12. [Secrets Storage and Platform Solutions](#11-secrets-storage-and-platform-solutions)
+13. [Key Rotation and Renewal Framework](#12-key-rotation-and-renewal-framework)
+14. [Key Escrow and Recovery](#13-key-escrow-and-recovery)
+15. [Abuse Detection and Anomaly Monitoring](#14-abuse-detection-and-anomaly-monitoring)
+16. [Emergency Compromise Handling and Incident Response](#15-emergency-compromise-handling-and-incident-response)
+17. [Audit, Logging and Accountability](#16-audit-logging-and-accountability)
+18. [CI/CD Secrets Management](#17-cicd-secrets-management)
+19. [Compliance Mapping](#18-compliance-mapping)
+20. [Roles and Responsibilities](#19-roles-and-responsibilities)
+21. [References](#20-references)
+22. [Change Control](#change-control)
 
-1. [Purpose and Scope](#1-purpose-and-scope)
-2. [Governing Standards and Frameworks](#2-governing-standards-and-frameworks)
-3. [Definitions and Secret Type Taxonomy](#3-definitions-and-secret-type-taxonomy)
-4. [Lifecycle Model](#4-lifecycle-model)
-5. [Secret Type Requirements](#5-secret-type-requirements)
-6. [Service Account Framework](#6-service-account-framework)
-7. [SSH Key Pair Framework](#7-ssh-key-pair-framework)
-8. [Inventory and Metadata Schema](#8-inventory-and-metadata-schema)
-9. [Encryption Requirements](#9-encryption-requirements)
-10. [Trust Relationships and Authentication Models](#10-trust-relationships-and-authentication-models)
-11. [Secrets Storage and Platform Solutions](#11-secrets-storage-and-platform-solutions)
-12. [Key Rotation and Renewal Framework](#12-key-rotation-and-renewal-framework)
-13. [Key Escrow and Recovery](#13-key-escrow-and-recovery)
-14. [Abuse Detection and Anomaly Monitoring](#14-abuse-detection-and-anomaly-monitoring)
-15. [Emergency Compromise Handling and Incident Response](#15-emergency-compromise-handling-and-incident-response)
-16. [Audit, Logging and Accountability](#16-audit-logging-and-accountability)
-17. [CI/CD Secrets Management](#17-cicd-secrets-management)
-18. [Compliance Mapping](#18-compliance-mapping)
-19. [Roles and Responsibilities](#19-roles-and-responsibilities)
-20. [References](#20-references)
+**Appendix:**
+A. [Policy Summary](#appendix-a-policy-summary)
+A.1 [CSA CCM Cross-Reference Overview](#csa-ccm-cross-reference-overview)
+A.2 [Identity and Access Linkages](#identity-and-access-linkages)
+A.3 [Appendix References](#appendix-references)
 
-**Appendices:**
-B. [Policy Summary](#appendix-b-policy-summary)
 ## Regulatory Positioning
 
 This standards document is implemented with the following external reference priority:
@@ -1230,7 +1233,7 @@ This standards document must be reviewed at least annually and whenever a materi
 - Superseded versions must be retained according to enterprise records-management requirements.
 
 
-# Appendix A. Policy Summary
+## Appendix A. Policy Summary
 
 ### A.1 Purpose and Scope
 This policy establishes governance, lifecycle controls, and operational requirements for managing secrets and cryptographic keys across the enterprise. It applies to all environments, platforms, and third-party integrations.
@@ -1346,7 +1349,7 @@ Secrets, key management, and cryptography controls depend directly on enterprise
 
 Where this standards document refers to access control, secret entitlement, key custody administration, break-glass access, or logging review, those requirements should be read together with enterprise IAM controls and role-governance processes.
 
-## References
+## Appendix References
 
 Inline source tags preserved in the document body, such as legacy `Rxx` citations, map to the corresponding `Source ID` values in the external sources table below.
 
