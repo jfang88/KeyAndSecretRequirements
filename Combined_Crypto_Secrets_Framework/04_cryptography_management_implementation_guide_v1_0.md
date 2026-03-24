@@ -16,18 +16,18 @@
 1. [Purpose and Scope](#1-purpose-and-scope)
 2. [Implementation Model](#2-implementation-model)
 3. [Platform Mapping](#3-platform-mapping)
-4. [Huawei Cloud KMS](#4-huawei-kms)
+4. [Huawei Cloud KMS](#4-huawei-cloud-kms)
 5. [AWS KMS](#5-aws-kms)
 6. [VMware vHSM](#6-vmware-vhsm)
-7. [CloudHSM / Dedicated HSM](#7-cloudhsm)
+7. [CloudHSM / Dedicated HSM](#7-cloudhsm--dedicated-hsm)
 8. [Shared Responsibility Matrices](#8-shared-responsibility-matrices)
 9. [Key Custody Models](#9-key-custody-models)
 10. [Migration and Onboarding](#10-migration-and-onboarding)
 11. [Troubleshooting and Operations](#11-troubleshooting-and-operations)
 
 **Appendices:**
-A. [API Examples and Configuration](#appendix-a-api-examples)
-B. [Control Mapping to Standards Doc #2](#appendix-b-control-mapping)
+A. [API Examples and Configuration](#appendix-a-api-examples-and-configuration)
+B. [Control Mapping to Standards Doc #2](#appendix-b-control-mapping-to-standards-doc-2)
 
 ---
 
@@ -175,14 +175,14 @@ VMware-validated Hardware Security Module for vSphere/NSX with PKCS#11 interface
 
 **vHSM Cluster Setup:**
 ```
-# HSM partition creation
+HSM partition creation command:
 pkcs11-tool --module /usr/lib/softhsm/libsofthsm2.so \\
   --login --pin 1234 --init-token --label "vHSM-Prod"
 ```
 
 **PKCS#11 Integration:**
 ```
-# App config
+Application PKCS#11 configuration example:
 library=/opt/vhsm/libvhsm_pkcs11.so
 slot=0
 userpin=secret
@@ -279,7 +279,7 @@ pkcs11-tool --module /opt/cloudhsm/lib/libcloudhsm_pkcs11.so \\
 
 ---
 
-# Appendix A: API Examples and Configuration
+## Appendix A. API Examples and Configuration
 
 **Huawei KMS Rotate Key Material:**
 ```bash
@@ -296,7 +296,7 @@ aliyun kms ScheduleKeyDeletion \\
 }}
 ```
 
-# Appendix B: Control Mapping to Standards Doc #2
+## Appendix B. Control Mapping to Standards Doc #2
 
 | Platform Pattern | Standards Doc #2 Control |
 |------------------|--------------------------|

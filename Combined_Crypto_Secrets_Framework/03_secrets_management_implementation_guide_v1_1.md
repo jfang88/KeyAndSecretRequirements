@@ -26,8 +26,8 @@
 11. [Troubleshooting and Operations](#11-troubleshooting-and-operations)
 
 **Appendices:**
-A. [API Examples and YAML](#appendix-a-api-examples)
-B. [Control Mapping to Standards Doc #2](#appendix-b-control-mapping)
+A. [Huawei, CyberArk, and Kubernetes Implementation Profiles](#appendix-a-huawei-cyberark-and-kubernetes-implementation-profiles)
+B. [Control Mapping to Standards Doc #2](#appendix-b-control-mapping-to-standards-doc-2)
 
 ---
 
@@ -109,7 +109,7 @@ Huawei CSMS (part of DEW) provides secrets storage, versioning, rotation, and KM
 
 **Pattern 1: Application Secret Storage**
 ```yaml
-# Create secret
+Create secret request example:
 curl -X POST https://csms.cn-north-4.myhuaweicloud.com/v1/{project_id}/secrets \\
   -H "X-Auth-Token: {token}" \\
   -d '{{"name": "payments-db", "secret_string": "{encrypted_payload}", "kms_key_id": "{cmk_arn}"}}'
@@ -269,7 +269,7 @@ vault agent -config=/etc/vault-agent.hcl
 
 ---
 
-# Appendix A. Huawei, CyberArk, and Kubernetes Implementation Profiles
+## Appendix A. Huawei, CyberArk, and Kubernetes Implementation Profiles
 
 This appendix extends the framework with a split-platform implementation model for Huawei-hosted infrastructure, non-Huawei infrastructure, and Kubernetes runtime delivery patterns.
 
@@ -687,7 +687,7 @@ flowchart TB
 
 
 
-## A.7.6 Alternative when Conjur is not available: Ansible with CyberArk
+### A.7.6 Alternative when Conjur is not available: Ansible with CyberArk
 
 Yes, Ansible can be used to retrieve secrets from CyberArk when Conjur is not available. Ansible documents the `community.general.cyberarkpassword` lookup plugin for retrieving credentials from CyberArk, and CyberArk documents Ansible integrations that enable managed nodes to retrieve secrets from CyberArk Secrets Manager using variables defined on the Ansible control node. [R16](https://docs.ansible.com/projects/ansible/latest/collections/community/general/cyberarkpassword_lookup.html)[R17](https://docs.cyberark.com/secrets-manager-sh/13.7/en/content/integrations/ansible.html)[R17](https://docs.cyberark.com/secrets-manager-sh/13.7/en/content/integrations/ansible.html)[R16](https://docs.ansible.com/projects/ansible/latest/collections/community/general/cyberarkpassword_lookup.html)
 
@@ -750,7 +750,7 @@ flowchart LR
 | Lifetime | Inject secrets only for the job or service lifecycle required and rotate or remove them after use |
 | Audit | Correlate CyberArk retrieval logs with Ansible job IDs, inventory hostnames, and downstream service restarts |
 
-## A.7.7 Hybrid pattern: Ansible retrieves from Huawei CSMS and injects into VMs
+### A.7.7 Hybrid pattern: Ansible retrieves from Huawei CSMS and injects into VMs
 
 Huawei documents CSMS secret creation and versioning APIs, and the HuaweiCloud Ansible collection provides modules for interacting with Huawei Cloud services. In hybrid environments, Ansible can act as the control-plane orchestrator that authenticates to Huawei APIs, retrieves the required secret version from CSMS, and injects it into a VM running either inside a Huawei VPC or outside Huawei infrastructure. [R11](https://support.huaweicloud.com/intl/en-us/usermanual-dew/dew_01_9993.html)[R18](https://github.com/huaweicloud/huaweicloud-ansible-modules)[R11](https://support.huaweicloud.com/intl/en-us/usermanual-dew/dew_01_9993.html)
 
@@ -851,7 +851,7 @@ flowchart TB
 | R25 | Huawei VPC best practices | [Huawei VPC Best Practices PDF](https://support.huaweicloud.com/intl/en-us/bestpractice-vpc/vpc-bestpractice-pdf.pdf) | VPC segmentation and routing context for VM examples |
 
 
-# Appendix B: Control Mapping to Standards Doc #2
+## Appendix B. Control Mapping to Standards Doc #2
 
 | Platform Pattern | Maps To Standards Control |
 |------------------|---------------------------|
